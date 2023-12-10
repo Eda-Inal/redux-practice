@@ -8,7 +8,7 @@ function ContentFooter() {
         items left
     </span>
 
-    <ul class="filters">
+    <ul className="filters">
         <li>
             <a href="#/" className="selected">All</a>
         </li>
