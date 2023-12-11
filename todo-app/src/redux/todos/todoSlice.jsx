@@ -16,10 +16,16 @@ export const todoSlice = createSlice({
     reducers : {
         addTodo :(state,action) => {
             state.items.push(action.payload)
+        },
+        toogle : (state,action) => {
+            const {id} = action.payload;
+            const item = state.items.find((item) => item.id ===id);
+            item.completed = !item.completed;
+        
         }
 
     },
 });
 
-export const {addTodo} = todoSlice.actions;
+export const {addTodo,toogle} = todoSlice.actions;
 export default todoSlice.reducer;

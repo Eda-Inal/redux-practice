@@ -1,7 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import {toogle} from '../redux/todos/todoSlice'
+
 
 function Todolist() {
+  const dispatch = useDispatch();
 const items = useSelector(state => state.todos.items);
 console.log(items);
   return (
@@ -18,7 +21,9 @@ console.log(items);
            {items.map((item) => (
             <li key={item.id} className={item.completed ? 'completed' : ''}>
              <div className="view">
-             <input className="toggle" type="checkbox" />
+             <input className="toggle" 
+             checked = {item.completed}
+             type="checkbox" onChange={() => dispatch(toogle({id : item.id}))}  />
              <label>{item.title}</label>
              <button className="destroy"></button>
          </div>
