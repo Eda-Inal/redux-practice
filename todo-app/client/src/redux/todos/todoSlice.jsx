@@ -1,9 +1,14 @@
 import {createSlice,nanoid,createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
 export const getTodoAsync = createAsyncThunk('todos/getTodosAsync', async()=>{
     const res = await fetch ('http://localhost:7000/todos');
     return await res.json();
-})
+});
 
+export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',async(data) => {
+  const res = await axios.post('http://localhost:7000/todos',data);
+  return res.data
+})
 
 export const todoSlice = createSlice({
     name : 'todos',
@@ -11,27 +16,15 @@ export const todoSlice = createSlice({
          items : [],
          isLoading :false,
          error : null,
-        activeFilter : 'all'
+        activeFilter : 'all',
+        addNewTodoIsLoading : false,
+        addNewTodoError:null
 
     },
   
     
     reducers : {
-        addTodo :{
-            reducer:(state,action) => {
-                state.items.push(action.payload)
-            },
-            prepare:({title}) => {
-              return {
-                payload: {
-                    id : nanoid(),
-                    completed:false,
-                    title
-
-                }
-              }
-            }
-        },
+       
         toogle : (state,action) => {
             const {id} = action.payload;
             const item = state.items.find((item) => item.id ===id);
@@ -53,19 +46,31 @@ clearCompleted : (state) => {
 
     }, 
     extraReducers: (builder) => {
-        builder
-          .addCase(getTodoAsync.pending, (state, action) => {
-            state.isLoading = true;
-          })
-          .addCase(getTodoAsync.fulfilled, (state, action) => {
-            state.items = action.payload;
-            state.isLoading = false;
-          })
-          .addCase(getTodoAsync.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.error.message;
-          });
-      }
+      builder
+        .addCase(getTodoAsync.pending, (state, action) => {
+          state.isLoading = true;
+        })
+        .addCase(getTodoAsync.fulfilled, (state, action) => {
+          state.items = action.payload;
+          state.isLoading = false;
+        })
+        .addCase(getTodoAsync.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.error.message;
+        })
+        .addCase(addTodoAsync.pending, (state, action) => {
+          state.addNewTodoIsLoading = true;
+        })
+        .addCase(addTodoAsync.fulfilled, (state, action) => {
+          state.items.push(action.payload);
+          state.addNewTodoIsLoading = false;
+        })
+        .addCase(addTodoAsync.rejected, (state, action) => {
+          state.addNewTodoIsLoading = false;
+          state.error = action.error.message;
+        });
+    }
+    
       
    
 });
@@ -77,7 +82,7 @@ export const selectFilteredTodos = (state) => {
     return state.todos.items.filter((todo) => state.todos.activeFilter === 'active' ? todo.completed == false : todo.completed == true)
 };
 export const selectActiveFilter = (state) => state.todos.activeFilter;
-export const {addTodo,toogle,destroy,changeActiveFilter,clearCompleted} = todoSlice.actions;
+export const {toogle,destroy,changeActiveFilter,clearCompleted} = todoSlice.actions;
 export default todoSlice.reducer;
 
   // //addTodo :(state,action) => {
