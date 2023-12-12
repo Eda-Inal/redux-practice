@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {nanoid} from '@reduxjs/toolkit'
 
 export const todoSlice = createSlice({
     name : 'todos',
@@ -15,9 +16,29 @@ export const todoSlice = createSlice({
         activeFilter : 'all'
 
     },
+    // //addTodo :(state,action) => {
+    //     state.items.push(action.payload)
+    // },prepare kullanmadan öncesi 
+
+    //addTodo : (state,action) => {
+        // state.items.push({id : nanoid(),title:action.payload.title,completed:false})} şeklinde de prepare kullanmadan yapılabilir
+        //ilk olarak prepare a title payload olarak gönderiliyor sonra payload return ediliyor sonrasında return edilen payload ( reducer:(state,action)) action içerisine düşüyor
+    
     reducers : {
-        addTodo :(state,action) => {
-            state.items.push(action.payload)
+        addTodo :{
+            reducer:(state,action) => {
+                state.items.push(action.payload)
+            },
+            prepare:({title}) => {
+              return {
+                payload: {
+                    id : nanoid(),
+                    completed:false,
+                    title
+
+                }
+              }
+            }
         },
         toogle : (state,action) => {
             const {id} = action.payload;
