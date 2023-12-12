@@ -1,14 +1,15 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import {toogle,clearCompleted} from '../redux/todos/todoSlice'
+import {toogle,clearCompleted,selectFilteredTodos} from '../redux/todos/todoSlice'
 import { destroy } from '../redux/todos/todoSlice';
 
 
 function Todolist() {
-  let filtered = []; // böyle olmadığında undefined hatası alıyor
+  // let filtered = []; // böyle olmadığında undefined hatası alıyor
   const dispatch = useDispatch();
-const items = useSelector(state => state.todos.items);
-const activeFilter = useSelector(state => state.todos.activeFilter);
+// const items = useSelector(selectTodos);
+// const activeFilter = useSelector(state => state.todos.activeFilter);
+const filteredTodos = useSelector(selectFilteredTodos)
 
 const handleDestroy = (id) => {
  if( window.confirm("Are you sure")){
@@ -16,15 +17,15 @@ const handleDestroy = (id) => {
 
  }
 }
-filtered = items;
-if(activeFilter !== 'all'){
-filtered = items.filter((todo) => activeFilter ==='active' ? 
-todo.completed==false :
-todo.completed==true 
+// filtered = items;
+// if(activeFilter !== 'all'){
+// filtered = items.filter((todo) => activeFilter ==='active' ? 
+// todo.completed==false :
+// todo.completed==true 
 
-)
-}
-console.log(items);
+// )} 
+
+
   return (
     <ul className="todo-list">
         {/* <li className="completed">
@@ -36,7 +37,7 @@ console.log(items);
         </li> */}
         
        
-           {filtered.map((item) => (
+           {filteredTodos.map((item) => (
             <li key={item.id} className={item.completed ? 'completed' : ''}>
              <div className="view">
              <input className="toggle" 

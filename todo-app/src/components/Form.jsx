@@ -9,7 +9,7 @@ function Form() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(addTodo({id :nanoid(),title, completed:false}));
-        setTitle("")
+        setTitle("");
     }
   
   return (
