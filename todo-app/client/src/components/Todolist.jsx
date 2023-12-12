@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import {toogle,clearCompleted,selectFilteredTodos} from '../redux/todos/todoSlice'
+import {toogle,clearCompleted,selectFilteredTodos,getTodoAsync} from '../redux/todos/todoSlice'
 import { destroy } from '../redux/todos/todoSlice';
+import Loading from './Loading';
+import Error from './Error';
 
 
 function Todolist() {
@@ -9,7 +11,13 @@ function Todolist() {
   const dispatch = useDispatch();
 // const items = useSelector(selectTodos);
 // const activeFilter = useSelector(state => state.todos.activeFilter);
-const filteredTodos = useSelector(selectFilteredTodos)
+const filteredTodos = useSelector(selectFilteredTodos);
+const isLoading = useSelector((state) => state.todos.isLoading);
+const error = useSelector((state) => state.todos.error);
+
+useEffect(() => {
+dispatch(getTodoAsync())
+},[dispatch])
 
 const handleDestroy = (id) => {
  if( window.confirm("Are you sure")){
@@ -25,7 +33,12 @@ const handleDestroy = (id) => {
 
 // )} 
 
-
+if (isLoading){
+  return <Loading/>
+}
+if(error){
+  return <Error message={error}/>
+}
   return (
     <ul className="todo-list">
         {/* <li className="completed">
