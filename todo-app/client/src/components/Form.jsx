@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import {addTodoAsync} from  '../redux/todos/todoSlice'
+import Loading from './Loading'
 
 
 function Form() {
     const [title,setTitle] = useState('');
     const dispatch = useDispatch();
+    const error= useSelector((state) =>state.todos.addNewTodoError)
     const isLoading = useSelector(state=> state.todos.addNewTodoIsLoading );
     const handleSubmit = async(e) => {
         e.preventDefault();
        await dispatch(addTodoAsync({title}));
         setTitle("");
+    }
+    if(error) {
+alert(error);
+return;
     }
   
   return (
@@ -20,7 +26,7 @@ function Form() {
         onChange={(e)=> setTitle(e.target.value)} />
         {
           isLoading &&
-          <span style={{paddingRight :10}}>Loading...</span>
+          <Loading/>
         }
         
     </form>

@@ -67,7 +67,7 @@ clearCompleted : (state) => {
         })
         .addCase(addTodoAsync.rejected, (state, action) => {
           state.addNewTodoIsLoading = false;
-          state.error = action.error.message;
+          state.addNewTodoError = action.error.message;
         });
     }
     
