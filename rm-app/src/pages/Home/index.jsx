@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCharacters } from '../../redux/charactersSlice';
+import { Link } from "react-router-dom";
 import "./styles.css"
 import Masonry from 'react-masonry-css'
 function Home() {
@@ -21,8 +22,10 @@ dispatch(fetchCharacters());
  {
         characters.map((character => (
             <div key={character.id}>
+                <Link to ="/">
                 <img alt={character.name} src= {character.image} className='character'/>
                 <div className='char_name'>{character.name}</div>
+                </Link>
             </div>
         )))
      }
