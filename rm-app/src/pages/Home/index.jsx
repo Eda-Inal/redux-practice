@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { UseSelector, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCharacters } from '../../redux/charactersSlice';
 function Home() {
-    const data = useSelector((state) => state.characters);
-    console.log(data);
+    const characters = useSelector((state) => state.characters.items);
+    const dispatch = useDispatch();
+   
+    useEffect(() =>{
+dispatch(fetchCharacters());
+    },[dispatch])
   return (
     <div>
-      Home
+     <h1>Characters</h1>
+     {
+        characters.map((character => (
+            <div key={character.id}>
+                <img alt={character.name} src= {character.image}/>
+            </div>
+        )))
+     }
     </div>
   )
 }
