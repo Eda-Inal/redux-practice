@@ -22,7 +22,7 @@ dispatch(fetchCharacters());
  {
         characters.map((character => (
             <div key={character.id}>
-                <Link to ="/">
+                <Link to ={`/char/${character.id}`}>
                 <img alt={character.name} src= {character.image} className='character'/>
                 <div className='char_name'>{character.name}</div>
                 </Link>

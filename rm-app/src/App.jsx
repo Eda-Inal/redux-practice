@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from './pages/Home';
-import About from './components/About';
+import Detail from './pages/Detail';
 import { Link } from "react-router-dom";
 
 
@@ -13,6 +13,7 @@ function App() {
       <BrowserRouter> 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/char/:char_id" element={<Detail />} />
         </Routes>
     </BrowserRouter>
     </div>
