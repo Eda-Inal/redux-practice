@@ -1,10 +1,16 @@
 import React from 'react'
-import {useSelector} from "react-redux"
-import { contactSelector } from '../../redux/contactSlice';
+import {useSelector,useDispatch} from "react-redux"
+import { contactSelector,removeAllContacts } from '../../redux/contactSlice';
 import Item from './Item';
 function List() {
-    const contatcs = useSelector(contactSelector.selectAll)
+    const contatcs = useSelector(contactSelector.selectAll);
+    const dispatch = useDispatch();
+    const handleDeleteAll=()=> {
+        dispatch(removeAllContacts())
+    }
   return (
+    <div>
+        <div className='removeAllBtn' onClick={handleDeleteAll}>Delete All</div>
     <ul className='list'>
 
     {contatcs.map((contact) => 
@@ -12,6 +18,8 @@ function List() {
     item={contact} 
     />)}
     </ul>
+   </div>
+
   )
 }
 
