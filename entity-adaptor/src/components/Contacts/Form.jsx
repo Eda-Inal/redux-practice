@@ -12,9 +12,10 @@ function Form() {
         e.preventDefault();
 
         setName('');
-        const names = name.split(",");
+        
+        setNumber('');
 
-        dispatch(addContact({ id: nanoid(), name }))
+        dispatch(addContact({ id: nanoid(), name,phone_number:number }))
 
     }
     return (
@@ -22,7 +23,7 @@ function Form() {
             <form onSubmit={handleSubmit}>
                 <input value={name} onChange={(e) => setName(e.target.value)} placeholder='name' />
                 <input placeholder='phone number' value={number} onChange={(e) => setNumber(e.target.value)} />
-                <button type='submit'>Add</button>
+                <div className="btn"><button type='submit'>Add</button></div>
             </form>
         </div>
     )

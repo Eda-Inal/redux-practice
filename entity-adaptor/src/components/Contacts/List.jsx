@@ -5,13 +5,13 @@ import Item from './Item';
 function List() {
     const contatcs = useSelector(contactSelector.selectAll)
   return (
-    <div>
+    <ul className='list'>
 
     {contatcs.map((contact) => 
     <Item key={contact.id}
     item={contact} 
     />)}
-    </div>
+    </ul>
   )
 }
 
